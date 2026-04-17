@@ -1138,9 +1138,9 @@ static void slim_video_setting(void)
 //#define s5k4h7yxFRONT_I2CBUS    (4)
 
 #if S5K4H7_OTP
-double pow2(double a,int b)
+int pow2(int a,int b)
 {
-	double c=0.0;
+	int c=0;
 	int i = 0;
 	for (i=1;i<b;i++){
 		c = a*b;
@@ -1158,8 +1158,8 @@ int GetCRC1(unsigned char *Data, unsigned int checksum_start,unsigned int Len)
         int hexonly = Data[checksum_start + i];
         for (j=7; j>=0; j--)
         {
-            DoInvert = hexonly & ((int)pow2(2.0,j));
-            DoInvert = DoInvert / (pow2(2.0,j));
+            DoInvert = hexonly & (pow2(2,j));
+            DoInvert = DoInvert / (pow2(2,j));
             DoInvert = DoInvert ^ CRC[15];
 
             CRC[15] = CRC[14] ^ DoInvert;
@@ -1183,7 +1183,7 @@ int GetCRC1(unsigned char *Data, unsigned int checksum_start,unsigned int Len)
 
     for (i=0; i<16; i++)
     {
-        mycrc16x = mycrc16x + (CRC[i]*pow2(2.0,i));
+        mycrc16x = mycrc16x + (CRC[i]*pow2(2,i));
     }
     return mycrc16x;
 }

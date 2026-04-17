@@ -400,6 +400,14 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
+		   -Wno-error \
+		   -Wno-error=maybe-uninitialized \
+		   -Wno-error=format \
+		   -Wno-error=format= \
+		   -Wno-error=format-security \
+		   -Wno-error=unused-variable \
+		   -Wno-error=unused-function \
+		   -Wno-error=unused-but-set-variable \
 		   -std=gnu89
 KBUILD_CPPFLAGS := -D__KERNEL__
 KBUILD_AFLAGS_KERNEL :=

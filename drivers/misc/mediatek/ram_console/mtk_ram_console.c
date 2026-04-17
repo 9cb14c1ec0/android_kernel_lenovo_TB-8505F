@@ -677,10 +677,10 @@ static int __init ram_console_early_init(void)
 			sram.size = CONFIG_MTK_RAM_CONSOLE_SIZE;
 		}
 		bufp = ioremap_wc(sram.start, sram.size);
-		ram_console_buffer_pa = (struct ram_console_buffer *)sram.start;
-		if (bufp)
+		if (bufp) {
+			ram_console_buffer_pa = (struct ram_console_buffer *)sram.start;
 			buffer_size = sram.size;
-		else {
+		} else {
 			pr_err("ram_console: ioremap failed, [0x%lx, 0x%lx]\n",
 					sram.start,
 			       sram.size);
@@ -1149,7 +1149,7 @@ unsigned long *aee_rr_rec_mtk_cpuidle_footprint_va(void)
 
 unsigned long *aee_rr_rec_fiq_cache_step_pa(void)
 {
-	if (ram_console_buffer_pa)
+	if (ram_console_buffer_pa && ram_console_buffer)
 		return (unsigned long *)&RR_LINUX_PA->fiq_cache_step;
 	else
 		return NULL;
@@ -1157,7 +1157,7 @@ unsigned long *aee_rr_rec_fiq_cache_step_pa(void)
 
 unsigned long *aee_rr_rec_mtk_cpuidle_footprint_pa(void)
 {
-	if (ram_console_buffer_pa)
+	if (ram_console_buffer_pa && ram_console_buffer)
 		return (unsigned long *)&RR_LINUX_PA->mtk_cpuidle_footprint;
 	else
 		return NULL;
@@ -2260,7 +2260,7 @@ void aee_rr_rec_hang_detect_timeout_count(unsigned int val)
 
 unsigned long *aee_rr_rec_gz_irq_pa(void)
 {
-	if (ram_console_buffer_pa)
+	if (ram_console_buffer_pa && ram_console_buffer)
 		return (unsigned long *)&RR_LINUX_PA->gz_irq;
 	else
 		return NULL;
