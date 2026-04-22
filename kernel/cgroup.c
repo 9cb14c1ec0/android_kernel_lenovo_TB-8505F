@@ -1731,6 +1731,16 @@ static int parse_cgroupfs_options(char *data, struct cgroup_sb_opts *opts)
 			opts->flags |= CGRP_ROOT_NOPREFIX;
 			continue;
 		}
+		if (!strcmp(token, "cpuset_v2_mode")) {
+			/* Accepted as no-op. The option was introduced in 4.20
+			 * to make v1 cpuset behave like v2 (preserve cpus_allowed
+			 * across hotplug). Modern userspace (Android A13+
+			 * libprocessgroup) passes this unconditionally; without
+			 * accepting it, cpuset mount fails → init SetupCgroups
+			 * → apexd-bootstrap dies → boot loop. 4.9 cpuset is
+			 * close enough to v2 mode for Android's purposes. */
+			continue;
+		}
 		if (!strcmp(token, "clone_children")) {
 			opts->cpuset_clone_children = true;
 			continue;
