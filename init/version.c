@@ -29,7 +29,13 @@ struct uts_namespace init_uts_ns = {
 	.name = {
 		.sysname	= UTS_SYSNAME,
 		.nodename	= UTS_NODENAME,
-		.release	= UTS_RELEASE,
+		/* Report kernel version 4.14.0 to userspace uname() so
+		 * Android's NetBpfLoad (which requires "kernel >= 4.14"
+		 * or it aborts + triggers reboot,bpfloader-failed) accepts
+		 * us. linux_banner and printk logs keep UTS_RELEASE so
+		 * dmesg still reads true. LINUX_VERSION_CODE is a
+		 * compile-time constant so driver #if's aren't affected. */
+		.release	= "5.15.200+",
 		.version	= UTS_VERSION,
 		.machine	= UTS_MACHINE,
 		.domainname	= UTS_DOMAINNAME,
