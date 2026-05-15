@@ -245,6 +245,7 @@ void bpf_jit_binary_free(struct bpf_binary_header *hdr)
 }
 
 int bpf_jit_harden __read_mostly;
+int bpf_jit_kallsyms __read_mostly;
 
 static int bpf_jit_blind_insn(const struct bpf_insn *from,
 			      const struct bpf_insn *aux,
