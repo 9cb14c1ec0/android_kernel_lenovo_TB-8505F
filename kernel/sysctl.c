@@ -1266,10 +1266,13 @@ static struct ctl_table kern_table[] = {
 		.data		= &sysctl_unprivileged_bpf_disabled,
 		.maxlen		= sizeof(sysctl_unprivileged_bpf_disabled),
 		.mode		= 0644,
-		/* only handle a transition from default "0" to "1" */
+		/* Accept 0, 1, or 2 — Android's NetBpfLoad writes "0"
+		 * here on boot and treats -EINVAL as fatal. Upstream 5.13
+		 * relaxed the one-way latch (commit 08389d888287); we
+		 * backport that behavior so bpfloader can succeed. */
 		.proc_handler	= proc_dointvec_minmax,
-		.extra1		= &one,
-		.extra2		= &one,
+		.extra1		= &zero,
+		.extra2		= &two,
 	},
 #endif
 #if defined(CONFIG_TREE_RCU) || defined(CONFIG_PREEMPT_RCU)
